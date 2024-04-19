@@ -36,7 +36,7 @@ class Intro(Scene):
 
 class Definition(Scene):
 	def construct(self):
-		title = Title("Defination", font_size=80)
+		title = Title("Definition", font_size=80)
 		caption1 = Text("Let's see what is a linear function", font_size=40, should_center=True)
 		defination = Text("A linear function is defined as a function\nthat has either one or two variables without exponents.",
 		                  font_size=40,
@@ -55,19 +55,19 @@ class Definition(Scene):
 		                should_center=True
 		                ).move_to(DOWN * 2)
 
-		interceptText = Text("Intercept", font_size=25, should_center=True).next_to(eq1aTex.submobjects[2], UP * 2.5)
-		interceptArrow = Arrow(start=interceptText.get_bottom(), end=eq1aTex.submobjects[2].get_top(), buff=-0.4)
+		slopeText = Text("Slope", font_size=25, should_center=True).next_to(eq1aTex.submobjects[2], UP * 2.5)
+		slopeArrow = Arrow(start=slopeText.get_bottom(), end=eq1aTex.submobjects[2].get_top(), buff=-0.4)
 
-		interceptCaption = Text("2 is the y-intercept i.e \nthe value of the dependent variable", font_size=40).move_to(DOWN * 2)
-
-		slopeText = Text("Slope", font_size=25, should_center=True).next_to(eq1aTex.submobjects[-1], RIGHT * 2.5)
-		slopeArrow = Arrow(start=slopeText.get_left(), end=eq1aTex.submobjects[-1].get_right(), buff=-0.4)
+		interceptText = Text("Intercept", font_size=25, should_center=True).next_to(eq1aTex.submobjects[-1], RIGHT * 2.5)
+		interceptArrow = Arrow(start=interceptText.get_left(), end=eq1aTex.submobjects[-1].get_right(), buff=-0.4)
 
 		slopeCaption = Text(
-				"When x = 0,\n 3 is the coefficient of the independent variable known as slope \n which gives the rate of change of the dependent variable.",
+				"Slope means that change in x\n will result in a change in y by the amount of 2",
 				font_size=35,
 				should_center=True
 		).move_to(DOWN * 2)
+
+		interceptCaption = Text("3 is the y-intercept i.e \nWhen x=0, the graph will intersect y-axis at y = 3", font_size=40).move_to(DOWN * 2)
 
 		self.play(Write(title))
 		self.play(AddTextLetterByLetter(caption1, run_time=1))
@@ -93,16 +93,16 @@ class Definition(Scene):
 		self.wait(2)
 		self.play(Unwrite(yCaption, run_time=0.5))
 		self.wait(3)
-		self.play(Write(interceptText, run_time=1), Create(interceptArrow))
-		self.wait(0.7)
-		self.play(Write(interceptCaption, run_time=0.675))
-		self.wait(2)
-		self.play(Unwrite(interceptCaption, run_time=0.5))
 		self.play(Write(slopeText, run_time=1), Create(slopeArrow))
 		self.wait(0.7)
-		self.play(Write(slopeCaption, run_time=1))
-		self.wait(3)
+		self.play(Write(slopeCaption, run_time=0.675))
+		self.wait(2)
 		self.play(Unwrite(slopeCaption, run_time=0.5))
+		self.play(Write(interceptText, run_time=1), Create(interceptArrow))
+		self.wait(0.7)
+		self.play(Write(interceptCaption, run_time=1))
+		self.wait(3.5)
+		self.play(Unwrite(interceptCaption, run_time=0.5))
 		self.play(FadeOut(title, exampleCaption, eq1aTex, slopeText, slopeArrow, slopeCaption, interceptText, interceptArrow))
 		self.wait(3)
 		Plotting.construct(self)
@@ -149,9 +149,19 @@ class Plotting(Scene):
 
 		joinCaption = Text("Now we can draw a line passing through these points", font_size=20, should_center=True).next_to(table, DOWN, buff=-0.5)
 
-		linearFuncGraph = ax.plot(lambda x: 2*x + 3, x_range=[-8, 8, 1], color=YELLOW_D)
 
 		finalCaption = Text("The following graph is the result", font_size=20, should_center=True).next_to(table, DOWN, buff=-0.5)
+
+		func2 = MathTex(r"f(x)"," = p", "x", " + q", font_size=65).next_to(title, DOWN, buff=0.5).shift(LEFT * 3)
+		valueChangeCaption = Text("Let's try changing p and q", font_size=20).next_to(func2, DOWN, buff=0.5)
+
+		p = ValueTracker(2)
+		pText = always_redraw(lambda: Text(f"p = {p.get_value():.2f}").next_to(valueChangeCaption, DOWN, buff=0.7))
+
+		q = ValueTracker(3)
+		qText = always_redraw(lambda: Text(f"q = {q.get_value():.2f}").next_to(pText, DOWN, buff=0.7))
+
+		linearFuncGraph = always_redraw(lambda: ax.plot(lambda x: p.get_value() * x + q.get_value(), x_range=[-8, 8, 1], color=YELLOW_D))
 
 		self.play(Write(title))
 		self.play(AddTextLetterByLetter(caption1, run_time=0.5))
@@ -193,11 +203,23 @@ class Plotting(Scene):
 		self.wait(1)
 		self.play(ReplacementTransform(joinCaption, finalCaption))
 		self.wait(3)
-		self.play(FadeOut(finalCaption, coord1, coord2, coord3, func1, table))
+		self.play(FadeOut(plotCoords, coord1, coord2, coord3, table))
+		self.play(ReplacementTransform(finalCaption, valueChangeCaption))
+		self.play(Write(pText), Write(qText), TransformMatchingTex(func1, func2))
+		self.add(p, q)
 		self.wait(1.5)
-		self.play(VGroup(plotCoords, linearFuncGraph, ax).animate.move_to([0, 0.5, 0]))
+		self.play(p.animate.set_value(5))
+		self.play(q.animate.set_value(7))
+		self.wait(1)
+		self.play(p.animate.set_value(-5))
+		self.play(q.animate.set_value(-7))
+		self.wait(1.5)
+		self.play(p.animate.set_value(2), q.animate.set_value(3))
+		self.wait(2)
+		self.play(FadeOut(func2, valueChangeCaption, pText, qText, p, q))
+		self.play(VGroup(linearFuncGraph, ax).animate.move_to([0, 0.5, 0]))
 		self.wait(3)
-		self.play(FadeOut(VGroup(plotCoords, linearFuncGraph, ax, title)))
+		self.play(FadeOut(VGroup(linearFuncGraph, ax, title)))
 		self.wait(1)
 		self.play(AddTextLetterByLetter(Text("Thanks for watching!", font_size=80), run_time=2))
 		self.wait(4)
