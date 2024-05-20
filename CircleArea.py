@@ -32,7 +32,8 @@ class CircleAreaDerivation(Scene):
 
         tex1 = MathTex(r"\Delta A", r"\approx", r"2\pi r", r"\Delta r", font_size=40).next_to(caption3, DOWN, buff=0.8)
 
-        limTex = MathTex(r"A = \lim_{\Delta r \space\to\space0 } \sum2\pi r \Delta r", font_size=40).next_to(tex1, DOWN, buff=0.5)
+        limTex = MathTex(r"A = \lim_{\Delta r \space\to\space0 } \sum2\pi r \Delta r", font_size=40).next_to(tex1, DOWN,
+                                                                                                             buff=0.5)
 
         caption4 = Tex(r"Now, to find the total area of the circle,\\ we sum up the areas of all these thin rings.",
                        font_size=30).shift(UP * 2)
@@ -45,7 +46,7 @@ class CircleAreaDerivation(Scene):
                        font_size=30).shift(UP * 2)
 
         integralTexA = MathTex(r"A =", r"\int_{0}^{r}", r"2", r"\pi r\space dr", font_size=40).next_to(limTex, DOWN,
-                                                                                                           buff=0.3)
+                                                                                                       buff=0.3)
         integralTexB = MathTex(r"A =", r"2\pi", r"\int_{0}^{r} r\space", r"dr", font_size=40).next_to(limTex, DOWN,
                                                                                                       buff=0.3)
 
@@ -59,7 +60,7 @@ class CircleAreaDerivation(Scene):
                                font_size=40).next_to(integralTexB, DOWN,
                                                      buff=0.3)
         evaluationBb = MathTex(r"A =", r"2", r"\pi", r"\frac{r^2}{2}", font_size=40).next_to(integralTexB, DOWN,
-                                                                                                  buff=0.3)
+                                                                                             buff=0.3)
 
         evaluationC = MathTex(r"A =", r"\pi", r"r^2", font_size=40).next_to(integralTexB, DOWN, buff=0.3)
 
@@ -113,6 +114,6 @@ class CircleAreaDerivation(Scene):
         self.wait(3)
 
 
-with tempconfig({"preview": True, "quality": "fourk_quality", "disable_caching": True}):
+with tempconfig({"preview": True, "quality": "low_quality", "disable_caching": True}):
     scene = CircleAreaDerivation()
     scene.render()
