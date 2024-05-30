@@ -1,10 +1,13 @@
 from manim import *
 
+
 class Thumbnail(Scene):
     def construct(self):
         title = Title("Definition of Derivative", font_size=80)
-        expr = MathTex(r"\lim_{0\to h} \frac{f(x+h) - f(x)}{h}", font_size=85)
+        expr = MathTex(r"\lim_{h\to 0} \frac{f(x+h) - f(x)}{h}", font_size=85)
         self.add(title, expr)
+
+
 class DerivativeProof(Scene):
     def construct(self):
         caption1 = Tex("Let's Plot $f(x)$ on a graph", font_size=40).shift(UP * 3).shift(RIGHT * 3)
@@ -24,9 +27,10 @@ class DerivativeProof(Scene):
         point2tracker = ValueTracker(4)
 
         coord1 = ax.c2p(2, 0.8)
-        coord2 = ax.c2p(point2tracker.get_value(), (1/5) * point2tracker.get_value() ** 2)
+        coord2 = ax.c2p(point2tracker.get_value(), (1 / 5) * point2tracker.get_value() ** 2)
         point1 = Dot(coord1, color=PURPLE)
-        point2 = Dot(coord2, color=PURPLE).add_updater(lambda m: m.become(Dot(ax.c2p(point2tracker.get_value(), (1/5) * point2tracker.get_value() ** 2), color=PURPLE)))
+        point2 = Dot(coord2, color=PURPLE).add_updater(lambda m: m.become(
+            Dot(ax.c2p(point2tracker.get_value(), (1 / 5) * point2tracker.get_value() ** 2), color=PURPLE)))
 
         point1DashedLines = [
             DashedLine(point1.get_center(), ax.c2p(0, 0.8), color=RED),
@@ -39,13 +43,14 @@ class DerivativeProof(Scene):
 
         dx = ValueTracker(2)
 
-        caption3 = Tex(r"Now We'll draw a line\\ passing through these points", font_size=40).shift(UP * 3).shift(RIGHT * 3)
+        caption3 = Tex(r"Now We'll draw a line\\ passing through these points", font_size=40).shift(UP * 3).shift(
+            RIGHT * 3)
 
         secantLine = always_redraw(
             lambda: ax.get_secant_slope_group(
                 x=2,
                 graph=graph,
-                dx=point2tracker.get_value()-2,
+                dx=point2tracker.get_value() - 2,
                 secant_line_length=5,
                 dx_line_color=BLUE,
                 dy_line_color=RED
@@ -71,9 +76,11 @@ class DerivativeProof(Scene):
 
         fxLabel = Tex("$f(x)$", font_size=30).next_to(point1DashedLines[0], LEFT, buff=0.15)
 
-        caption7 = Tex(r"Let's say that the distance between\\ x values of the 2 points is $h$", font_size=40).shift(UP * 3).shift(RIGHT * 3)
+        caption7 = Tex(r"Let's say that the distance between\\ x values of the 2 points is $h$", font_size=40).shift(
+            UP * 3).shift(RIGHT * 3)
 
-        hBrace = always_redraw(lambda: BraceBetweenPoints((point1.get_x(), -0.3, 0), (point2.get_x(), -0.3, 0), color=BLUE_C))
+        hBrace = always_redraw(
+            lambda: BraceBetweenPoints((point1.get_x(), -0.3, 0), (point2.get_x(), -0.3, 0), color=BLUE_C))
         braceLabel = always_redraw(lambda: Tex("$h$", font_size=30).next_to(hBrace, DOWN, buff=0.1))
 
         caption8 = Tex(r"Then we can replace\\ $x_2$ with $x+h$", font_size=40).shift(UP * 3).shift(RIGHT * 3)
@@ -84,18 +91,26 @@ class DerivativeProof(Scene):
 
         fxhLabel = Tex("$f(x+h)$", font_size=30).next_to(point2DashedLines[0], LEFT, buff=0.15)
 
-        caption9 = Tex(r"Now we substitute the values\\ in the slope function", font_size=40).shift(UP * 3).shift(RIGHT * 3)
+        caption9 = Tex(r"Now we substitute the values\\ in the slope function", font_size=40).shift(UP * 3).shift(
+            RIGHT * 3)
 
-        slopeFunc2 = MathTex(r"\text{slope} = \frac{f(x+h) - f(x)}{x + h - x}").next_to(caption5, DOWN, 0.7).shift(RIGHT * 1)
+        slopeFunc2 = MathTex(r"\text{slope} = \frac{f(x+h) - f(x)}{x + h - x}").next_to(caption5, DOWN, 0.7).shift(
+            RIGHT * 1)
         slopeFunc3 = MathTex(r"\text{slope} = \frac{f(x+h) - f(x)}{h}").next_to(caption5, DOWN, 0.7).shift(RIGHT * 1)
 
-        caption10 = Tex(r"Now if we let $h$ approach 0, \\the two points will be pretty much \\be at the same point", font_size=30).shift(UP * 3).shift(RIGHT * 3)
-        caption10a = Tex(r"The function becomes a limit\\ and the derivative is the slope of this line", font_size=35).shift(UP * 3).shift(RIGHT * 3)
+        caption10 = Tex(r"Now if we let $h$ approach 0, \\the two points will be pretty much \\be at the same point",
+                        font_size=30).shift(UP * 3).shift(RIGHT * 3)
+        caption10a = Tex(r"The function becomes a limit\\ and the derivative is the slope of this line",
+                         font_size=35).shift(UP * 3).shift(RIGHT * 3)
 
-        slopeFunc4 = MathTex(r"\text{slope} =\lim_{h\space\to\space 0} \frac{f(x+h) - f(x)}{h}").next_to(caption10a, DOWN, 0.7).shift(RIGHT * 0.5)
+        slopeFunc4 = MathTex(r"\text{slope} =\lim_{h\space\to\space 0} \frac{f(x+h) - f(x)}{h}").next_to(caption10a,
+                                                                                                         DOWN,
+                                                                                                         0.7).shift(
+            RIGHT * 0.5)
 
         finalCaption = Tex("Hence, the Definition of Derivative is:- ", font_size=75).shift(UP * 3)
-        finalFunc = MathTex(r"\lim_{h\space\to\space 0} \frac{f(x+h) - f(x)}{h}", font_size=90).next_to(finalCaption, DOWN, buff=1)
+        finalFunc = MathTex(r"\lim_{h\space\to\space 0} \frac{f(x+h) - f(x)}{h}", font_size=90).next_to(finalCaption,
+                                                                                                        DOWN, buff=1)
 
         thankyouCaption = Tex("Thanks for Watching", font_size=80)
 
