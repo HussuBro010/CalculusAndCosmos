@@ -1,6 +1,7 @@
 import numpy as np
 from manim import *
 
+
 class Thumbnail(Scene):
     def construct(self):
         title = Title("Calculus - Limits", font_size=100)
@@ -21,6 +22,7 @@ class Thumbnail(Scene):
         graph.set_color(YELLOW)
 
         self.add(title, limTex, ax, funcTex, graph)
+
 
 class LimitsIntro(Scene):
     def construct(self):

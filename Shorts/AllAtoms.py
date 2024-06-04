@@ -126,7 +126,7 @@ class AtomModels(Scene):
         }
         elementList = [BohrAtom(*i).scale(0.45) for i in atomData.values()]
         elementLabelList = [
-            MElementObject.from_csv_file_data(filename="Assets/Atoms/Elements.csv", atomic_number=i + 1).shift(
+            MElementObject.from_csv_file_data(filename="../Assets/Atoms/Elements.csv", atomic_number=i + 1).shift(
                 DOWN * 2).scale(0.5) for i in range(118)]
 
         # Initialize with the first shape
