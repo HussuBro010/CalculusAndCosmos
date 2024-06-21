@@ -1,6 +1,7 @@
 import numpy as np
 from manim import *
 
+
 class Thumbnail(Scene):
     def construct(self):
         title = Title("Continuity Of Functions", font_size=80)
@@ -76,7 +77,9 @@ class Thumbnail(Scene):
         sumSegment1T3 = sumAx3.plot(sf, x_range=(-1, 4))
         sumSegment1T3.color = YELLOW
 
-        self.add(title, ax, funcTex, graph, sumAx1, sumSegment1, sumSegment2, sumHollowDotT1, sumDotT1, sumAx2, sumSegment1T2, sumSegment2T2, sumHollowDotT2, sumDotT2, sumAx3, sumSegment1T3)
+        self.add(title, ax, funcTex, graph, sumAx1, sumSegment1, sumSegment2, sumHollowDotT1, sumDotT1, sumAx2,
+                 sumSegment1T2, sumSegment2T2, sumHollowDotT2, sumDotT2, sumAx3, sumSegment1T3)
+
 
 class Intro(Scene):
     def construct(self):
