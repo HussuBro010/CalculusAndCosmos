@@ -1,5 +1,5 @@
 from manim import *
-from manim_extras import *
+from manim_util_lib import *
 
 
 class SemicircleArea(Scene):
