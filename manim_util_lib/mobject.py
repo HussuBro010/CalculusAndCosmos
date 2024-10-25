@@ -22,6 +22,18 @@ class BetterPolygon(Polygon):
 
 
 class BetterRegularPolygon(RegularPolygon):
+
+    def get_edges(self):
+        vertices = self.get_vertices()
+        lines = []
+        for i in range(len(vertices)):
+            if i < len(vertices) - 1:
+                p1, p2 = [vertices[i], vertices[i + 1]]
+            else:
+                p1, p2 = [vertices[-1], vertices[0]]
+            lines.append(Line(p1, p2))
+        return lines
+
     def get_center_of_edges(self, buff=0):
         vertices = self.get_vertices()
         coords_vertices = []
@@ -49,4 +61,3 @@ class LabeledCircle(VMobject):
         self.tex = Tex(text, font_size=40).move_to(self.circle.get_center())
 
         self.add(self.circle, self.tex)
-
