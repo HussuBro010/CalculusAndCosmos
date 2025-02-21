@@ -3,6 +3,7 @@ from manim import *
 config.pixel_width = 1080 * 2
 config.pixel_height = 1920 * 2
 
+
 class proof(Scene):
     def construct(self):
         # CONSTANTS
